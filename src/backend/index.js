@@ -1,26 +1,24 @@
-/* eslint-disable no-undef */
 const express = require('express');
 const { chats } = require('./data/data.js');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db.js');
+const userRoutes = require('./routes/userRoutes');
+const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 
 const app = express();
 dotenv.config();
 connectDB();
 
-const PORT = process.env.PORT || 8000
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('API is now')
 });
+app.use('/api/user', userRoutes);
 
-app.get('/api/chat', (req, res) => {
-    res.send(chats)
-});
+app.use(notFound)
+app.use(errorHandler)
 
-app.get('/api/chat/:id', (req, res) => {
-    console.log(req.params.id)
-    const singleChat = chats.find((chat) => chat._id === req.params.id);
-    res.send(singleChat);
-});
+const PORT = process.env.PORT || 8000
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

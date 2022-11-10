@@ -8,6 +8,7 @@ const Signup = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
+  const [loading, setloading] = useState(false);
 
   const handleClick = () => setShow(!show);
   const postDetails=(pics)=>{  }
